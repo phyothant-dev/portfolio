@@ -105,7 +105,7 @@
       text-align: center; border-bottom: 8px solid var(--lego-black);
     }
     header img {
-      width: 160px; height: 160px; background: white;
+      width: 120px; height: 120px; background: white;
       border: 6px solid var(--lego-black); border-radius: 20px;
       object-fit: cover; box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
     }
@@ -168,6 +168,61 @@
       max-width: 800px;
     }
 
+    /* RPS GAME STYLES */
+    #rps-container {
+      background: var(--lego-black); border: 6px solid #000; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; padding: 0;
+    }
+    #rps-ui {
+      width: 100%; background: var(--lego-red); color: white; padding: 10px;
+      display: flex; justify-content: space-between; font-family: 'Ubuntu Mono';
+      border-bottom: 4px solid #000;
+    }
+    #rps-battle {
+      display: flex; align-items: center; justify-content: center; gap: 30px;
+      padding: 30px 20px; width: 100%; background: var(--sky-blue);
+    }
+    .rps-player { text-align: center; }
+    .rps-label {
+      font-family: 'Ubuntu Mono'; font-weight: bold; color: #fff; margin-bottom: 10px;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    }
+    .rps-choice {
+      width: 100px; height: 100px; background: white; border: 4px solid #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; box-shadow: 5px 5px 0px #000; transition: transform 0.2s;
+    }
+    .rps-choice.animate { animation: brickSnap 0.3s ease-out; }
+    .rps-choice svg { width: 70%; height: 70%; }
+    .rps-vs {
+      font-family: 'Poppins'; font-size: 1.5rem; font-weight: 800; color: var(--lego-yellow);
+      text-shadow: 2px 2px 0px #000;
+    }
+    #rps-result {
+      width: 100%; text-align: center; padding: 10px; font-family: 'Ubuntu Mono';
+      font-weight: bold; font-size: 1.1rem; background: var(--lego-black);
+      color: var(--lego-yellow); border-top: 4px solid #000; border-bottom: 4px solid #000;
+      min-height: 44px;
+    }
+    #rps-buttons {
+      display: flex; justify-content: center; gap: 15px; padding: 20px;
+      background: var(--lego-black); width: 100%; flex-wrap: wrap;
+    }
+    .rps-btn {
+      font-family: 'Ubuntu Mono'; font-weight: bold; font-size: 1rem;
+      padding: 12px 24px; border: 4px solid #000; cursor: pointer;
+      box-shadow: 5px 5px 0px #000; transition: all 0.15s; text-transform: uppercase;
+    }
+    .rps-btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0px #000; }
+    .rps-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
+    .rps-btn:nth-child(1) { background: var(--lego-yellow); }
+    .rps-btn:nth-child(2) { background: var(--lego-blue); color: white; }
+    .rps-btn:nth-child(3) { background: var(--lego-red); color: white; }
+    @media (max-width: 500px) {
+      .rps-choice { width: 70px; height: 70px; font-size: 2rem; }
+      .rps-btn { padding: 10px 16px; font-size: 0.85rem; }
+    }
+
     .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
     
     .tech-brick { 
@@ -195,7 +250,13 @@
       box-shadow: 8px 8px 0px var(--lego-blue); cursor: pointer; transition: 0.2s;
     }
     .project:hover { transform: translateY(-5px); box-shadow: 12px 12px 0px var(--lego-red); }
-    .project img { width: 100%; border-bottom: 4px solid #000; display: block; }
+    .project img { width: 100%; height: 220px; object-fit: contain; background: #f5f5f5; border-bottom: 4px solid #000; display: block; }
+    .project-placeholder {
+      width: 100%; height: 180px; border-bottom: 4px solid #000;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Ubuntu Mono'; font-size: 2.5rem; font-weight: bold; color: #fff;
+      text-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+    }
 
     footer { 
       background: var(--lego-black); color: #fff; padding: 60px 20px; 
@@ -218,13 +279,18 @@
       background: rgba(0,0,0,0.9); display: none;
       justify-content: center; align-items: center; z-index: 6000; padding: 20px;
     }
-    .modal-box { background: var(--section-bg); border: 8px solid #000; max-width: 850px; width: 100%; }
+    .modal-box { background: var(--section-bg); border: 8px solid #000; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; }
     .modal-header {
-      background: var(--lego-yellow); padding: 10px 20px;
+      background: var(--lego-yellow); padding: 10px 15px;
       border-bottom: 6px solid #000; display: flex; justify-content: space-between; align-items: center;
     }
-    .modal-close { background: var(--lego-red); color: #fff; border: 3px solid #000; width: 40px; height: 40px; cursor: pointer; font-weight: bold; }
-    .modal-body { padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .modal-close { background: var(--lego-red); color: #fff; border: 3px solid #000; width: 32px; height: 32px; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
+    .modal-body { padding: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .modal-body img { max-height: 280px; object-fit: cover; }
+    @media (max-width: 600px) {
+      .modal-box { max-width: 92%; }
+      .modal-body { grid-template-columns: 1fr; padding: 16px; }
+    }
 
     #backToTop {
       position: fixed; bottom: 30px; right: 30px;
@@ -249,11 +315,12 @@
   
   <img src="profile.jpg" alt="Phyothant">
   <h1>Phyothant</h1>
-  <p style="font-family: 'Ubuntu Mono'; background: #000; color: var(--lego-yellow); padding: 5px 15px; display: inline-block; margin-top: 10px;">> MASTER BUILDER / MOBILE DEVELOPER</p>
+  <p style="font-family: 'Ubuntu Mono'; background: #000; color: var(--lego-yellow); padding: 5px 15px; display: inline-block; margin-top: 10px;">> MOBILE DEVELOPER</p>
   
   <nav>
     <a href="#about">About</a>
     <a href="#master-builder">Play Game</a>
+    <a href="#rps-game">RPS</a>
     <a href="#tech-stack">Tech Stack</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
@@ -266,7 +333,7 @@
     <p style="font-size: 1.2rem; margin-bottom: 15px;">
       Hello! I'm <strong>Phyothant</strong>, a 23-year-old developer from Myanmar who is <strong>deeply passionate about developing mobile apps</strong>.
     </p>
-      Just like building with LEGO bricks, I love taking complex problems and breaking them down into small, manageable components to build something extraordinary. I specialize in <strong>React Native</strong> and focus on creating clean, efficient, and user-friendly mobile architectures. When I'm not coding, I'm usually exploring new tech stacks or thinking about the next big build.
+      Just like building with LEGO bricks, I love taking complex problems and breaking them down into small, manageable components to build something extraordinary. I specialize in <strong>React Native & Expo</strong> and also work with <strong>Flutter</strong>. I focus on creating clean, efficient, and user-friendly mobile architectures. When I'm not coding, I'm usually exploring new tech stacks or thinking about the next big build.
     </p>
   </div>
 </section>
@@ -280,7 +347,34 @@
     </div>
     <canvas id="marioCanvas" width="800" height="200"></canvas>
     <div style="background: var(--lego-black); color: white; width:100%; text-align:center; padding: 5px; font-size: 0.8rem; font-family:'Ubuntu Mono';">
-      [SPACE] TO JUMP | AVOID THE GOOMBAS
+      [SPACE] OR TAP TO JUMP | AVOID THE GOOMBAS
+    </div>
+  </div>
+</section>
+
+<section id="rps-game" class="studs">
+  <h2>Rock Paper Scissors</h2>
+  <div id="rps-container">
+    <div id="rps-ui">
+      <span>SCORE: <span id="rps-score-val">0</span></span>
+      <span>STREAK: <span id="rps-streak-val">0</span></span>
+    </div>
+    <div id="rps-battle">
+      <div class="rps-player">
+        <div class="rps-label">YOU</div>
+        <div class="rps-choice" id="rps-player-choice">?</div>
+      </div>
+      <div class="rps-vs">VS</div>
+      <div class="rps-player">
+        <div class="rps-label">PHYOTHANT</div>
+        <div class="rps-choice" id="rps-cpu-choice">?</div>
+      </div>
+    </div>
+    <div id="rps-result"></div>
+    <div id="rps-buttons">
+      <button class="rps-btn" onclick="playRPS('rock')">ROCK</button>
+      <button class="rps-btn" onclick="playRPS('paper')">PAPER</button>
+      <button class="rps-btn" onclick="playRPS('scissors')">SCISSORS</button>
     </div>
   </div>
 </section>
@@ -291,8 +385,10 @@
     <div class="tech-brick blue"><i class="si si-react"></i> React Native</div>
     <div class="tech-brick yellow"><i class="si si-javascript"></i> JavaScript</div>
     <div class="tech-brick blue"><i class="si si-typescript"></i> TypeScript</div>
+    <div class="tech-brick yellow" style="border-top: 10px solid #02569B;"><i class="si si-flutter"></i> Flutter</div>
     <div class="tech-brick green" style="border-top: 10px solid #FFCA28;"><i class="si si-firebase"></i> Firebase</div>
     <div class="tech-brick yellow"><i class="si si-supabase"></i> Supabase</div>
+    <div class="tech-brick blue" style="border-top: 10px solid #0089FF;"><i class="si si-expo"></i> Expo</div>
     <div class="tech-brick yellow"><i class="si si-figma"></i> UI/UX Design</div>
     <div class="tech-brick blue"><i class="si si-git"></i> Git / GitHub</div>
   </div>
@@ -301,12 +397,24 @@
 <section id="projects" class="studs">
   <h2>Projects</h2>
   <div class="projects">
-    <div class="project" onclick="openModal('JoinUs', 'joinus.jpg', 'JoinUs is a social community app built with React Native. It connects students through real-time event tracking and community forums.')">
-      <img src="joinus.jpg" alt="JoinUs">
+    <div class="project" onclick="openModal('LocJobs', '', 'LocJobs is a full-featured location-based job marketplace with dual-role system, real-time chat with read receipts, Google Maps integration, reviews/ratings, Google OAuth, and English/Burmese i18n. Built with Expo and Supabase.', 'https://github.com/phyothant-dev/loc-jobs')">
+      <div class="project-placeholder" style="background: linear-gradient(135deg, #0055ad, #0089FF);">LJ</div>
+      <div style="padding: 20px;"><h3>LocJobs</h3><p>Job Marketplace App</p></div>
+    </div>
+    <div class="project" onclick="openModal('Ziwa Dana', '', 'Ziwa Dana is a mobile ERP portal for managing suppliers, purchase receipts, and settings with Frappe backend integration, featuring theming, localization, and camera support.', 'https://github.com/phyothant-dev/ziwa-dana')">
+      <div class="project-placeholder" style="background: linear-gradient(135deg, #237841, #4CAF50);">ZD</div>
+      <div style="padding: 20px;"><h3>Ziwa Dana</h3><p>Mobile ERP Portal</p></div>
+    </div>
+    <div class="project" onclick="openModal('PT Language', '', 'PT is a custom programming language with lexer, parser, and tree-walk interpreter built from scratch in C++, supporting variables, control flow, closures, arrays, and file I/O.', 'https://github.com/phyothant-dev/pt')">
+      <div class="project-placeholder" style="background: linear-gradient(135deg, #00599C, #3498db);">PT</div>
+      <div style="padding: 20px;"><h3>PT Language</h3><p>Custom Programming Language</p></div>
+    </div>
+    <div class="project" onclick="openModal('JoinUs', 'joinus_cover.png', 'JoinUs is a social community app built with React Native. It connects students through real-time event tracking and community forums.', 'https://github.com/phyothant-dev/joinus')">
+      <img src="joinus_cover.png" alt="JoinUs">
       <div style="padding: 20px;"><h3>JoinUs</h3><p>Campus Social App</p></div>
     </div>
-    <div class="project" onclick="openModal('LearnDSAlgos', 'ds.jpg', 'LearnDSAlgos is an educational tool that visualizes complex data structures through interactive animations.')">
-      <img src="ds.jpg" alt="LearnDSAlgos">
+    <div class="project" onclick="openModal('LearnDSAlgos', 'ds_cover.png', 'LearnDSAlgos is an educational tool that visualizes complex data structures through interactive animations.', 'https://github.com/phyothant-dev/LearnDSAlgos')">
+      <img src="ds_cover.png" alt="LearnDSAlgos">
       <div style="padding: 20px;"><h3>LearnDSAlgos</h3><p>Algorithm Visualizer</p></div>
     </div>
   </div>
@@ -325,7 +433,7 @@
 <footer>
   <div class="footer-container">
     <div class="footer-col">
-      <h4>Master Builder</h4>
+      <h4>Mobile Developer</h4>
       <p style="font-size: 0.9rem; color: #ccc;">Building the future of mobile experiences, one brick at a time.</p>
     </div>
     <div class="footer-col">
@@ -333,6 +441,7 @@
       <a href="#about">About</a>
       <a href="#tech-stack">Tech Stack</a>
       <a href="#projects">Projects</a>
+
     </div>
     <div class="footer-col">
       <h4>Connect</h4>
@@ -357,8 +466,9 @@
       <div>
         <h2 id="modalTitle" style="transform:none; margin-bottom: 15px;"></h2>
         <p id="modalDesc" style="color: var(--text-color); line-height: 1.6;"></p>
-        <div style="margin-top: 20px; border-top: 2px dashed #ccc; padding-top: 15px;">
+        <div style="margin-top: 20px; border-top: 2px dashed #ccc; padding-top: 15px; display: flex; align-items: center; gap: 15px;">
           <small>Status: Completed | Build Type: Mobile Architecture</small>
+          <a id="modalGithub" href="#" target="_blank" style="display:none; background:#212121; color:#fff; padding:6px 14px; border:3px solid #000; box-shadow:3px 3px 0px #000; text-decoration:none; font-family:'Ubuntu Mono'; font-size:0.8rem; font-weight:bold;">GitHub</a>
         </div>
       </div>
     </div>
@@ -411,10 +521,23 @@
     revealObserver.observe(section);
   });
 
-  function openModal(title, img, desc) {
+  function openModal(title, img, desc, github) {
     document.getElementById('modalTitle').innerText = title;
-    document.getElementById('modalImg').src = img;
+    const modalImg = document.getElementById('modalImg');
+    if (img) {
+      modalImg.src = img;
+      modalImg.style.display = 'block';
+    } else {
+      modalImg.style.display = 'none';
+    }
     document.getElementById('modalDesc').innerText = desc;
+    const ghLink = document.getElementById('modalGithub');
+    if (github) {
+      ghLink.href = github;
+      ghLink.style.display = 'inline-block';
+    } else {
+      ghLink.style.display = 'none';
+    }
     document.getElementById('legoModal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
@@ -475,7 +598,7 @@
     
     ctx.fillStyle = "black";
     ctx.font = "bold 10px Poppins";
-    ctx.fillText("REPRESS SPACE TO REBUILD", canvas.width/2, 165);
+    ctx.fillText("TAP OR PRESS SPACE TO REBUILD", canvas.width/2, 165);
   }
 
   function gameLoop() {
@@ -525,6 +648,116 @@
       e.preventDefault();
     }
   });
+
+  canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (!gameActive) {
+      gameActive = true; score = 0; scoreVal.innerText = 0; enemies = []; player.y = 140; gameLoop();
+    } else if (player.grounded) {
+      player.dy = -player.jump; player.grounded = false;
+    }
+  });
+
+  canvas.addEventListener('click', () => {
+    if (!gameActive) {
+      gameActive = true; score = 0; scoreVal.innerText = 0; enemies = []; player.y = 140; gameLoop();
+    } else if (player.grounded) {
+      player.dy = -player.jump; player.grounded = false;
+    }
+  });
+
+  // --- ROCK PAPER SCISSORS GAME ---
+  const rpsSVGs = {
+    rock: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#9E9E9E"/><stop offset="100%" style="stop-color:#616161"/>
+      </linearGradient></defs>
+      <path d="M50 10 C25 10 10 30 12 55 C14 75 30 90 50 92 C70 90 86 75 88 55 C90 30 75 10 50 10Z" fill="url(#rg)" stroke="#424242" stroke-width="3"/>
+      <path d="M30 40 C35 35 45 38 42 48" fill="none" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+      <path d="M55 55 C60 50 68 52 65 60" fill="none" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+      <path d="M40 65 C43 62 50 63 48 68" fill="none" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+    </svg>`,
+    paper: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#FFFFFF"/><stop offset="100%" style="stop-color:#E0E0E0"/>
+      </linearGradient></defs>
+      <path d="M15 5 L70 5 L85 20 L85 90 L15 90Z" fill="url(#pg)" stroke="#9E9E9E" stroke-width="2"/>
+      <path d="M70 5 L70 20 L85 20" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2"/>
+      <line x1="28" y1="35" x2="65" y2="35" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+      <line x1="28" y1="48" x2="60" y2="48" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+      <line x1="28" y1="61" x2="55" y2="61" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+      <line x1="28" y1="74" x2="45" y2="74" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
+    </svg>`,
+    scissors: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#E0E0E0"/><stop offset="100%" style="stop-color:#9E9E9E"/>
+      </linearGradient></defs>
+      <ellipse cx="30" cy="78" rx="14" ry="14" fill="none" stroke="#616161" stroke-width="4"/>
+      <ellipse cx="70" cy="78" rx="14" ry="14" fill="none" stroke="#616161" stroke-width="4"/>
+      <path d="M38 68 L46 35" stroke="url(#sg)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M62 68 L54 35" stroke="url(#sg)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M46 35 L38 12" stroke="url(#sg)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M54 35 L62 12" stroke="url(#sg)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="50" cy="45" r="4" fill="#757575" stroke="#424242" stroke-width="2"/>
+    </svg>`
+  };
+
+  let rpsScore = 0;
+  let rpsStreak = 0;
+
+  function playRPS(playerChoice) {
+    const choices = ['rock', 'paper', 'scissors'];
+    const cpuChoice = choices[Math.floor(Math.random() * 3)];
+
+    const playerEl = document.getElementById('rps-player-choice');
+    const cpuEl = document.getElementById('rps-cpu-choice');
+    const resultEl = document.getElementById('rps-result');
+    const btns = document.querySelectorAll('.rps-btn');
+
+    btns.forEach(b => b.disabled = true);
+
+    playerEl.innerHTML = '?';
+    playerEl.style.fontSize = '3rem';
+    cpuEl.innerHTML = '?';
+    cpuEl.style.fontSize = '3rem';
+    resultEl.textContent = 'THINKING...';
+
+    setTimeout(() => {
+      playerEl.style.fontSize = '';
+      playerEl.innerHTML = rpsSVGs[playerChoice];
+      playerEl.classList.remove('animate');
+      void playerEl.offsetWidth;
+      playerEl.classList.add('animate');
+
+      cpuEl.style.fontSize = '';
+      cpuEl.innerHTML = rpsSVGs[cpuChoice];
+      cpuEl.classList.remove('animate');
+      void cpuEl.offsetWidth;
+      cpuEl.classList.add('animate');
+
+      let result = '';
+      if (playerChoice === cpuChoice) {
+        result = "IT'S A TIE!";
+        rpsStreak = 0;
+      } else if (
+        (playerChoice === 'rock' && cpuChoice === 'scissors') ||
+        (playerChoice === 'paper' && cpuChoice === 'rock') ||
+        (playerChoice === 'scissors' && cpuChoice === 'paper')
+      ) {
+        rpsScore++;
+        rpsStreak++;
+        result = rpsStreak >= 3 ? `🔥 ${rpsStreak}x STREAK! YOU WIN!` : 'YOU WIN!';
+      } else {
+        rpsStreak = 0;
+        result = 'PHYOTHANT WINS!';
+      }
+
+      resultEl.textContent = result;
+      document.getElementById('rps-score-val').textContent = rpsScore;
+      document.getElementById('rps-streak-val').textContent = rpsStreak;
+      btns.forEach(b => b.disabled = false);
+    }, 600);
+  }
 
   gameLoop();
 </script>
