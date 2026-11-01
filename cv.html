@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phyothant — Mobile Developer CV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #1b1b1b;
+      background: #ddd;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ---- Header ---- */
+    .top {
+      background: #ffcf00;
+      border-bottom: 5px solid #000;
+      padding: 11mm 15mm 8mm;
+      position: relative;
+      overflow: hidden;
+    }
+    .top::after {
+      content: "";
+      position: absolute;
+      right: -12mm;
+      top: -12mm;
+      width: 58mm;
+      height: 58mm;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.16) 34%, transparent 38%);
+      background-size: 9mm 9mm;
+      transform: rotate(8deg);
+    }
+    .name {
+      margin: 0;
+      font-size: 33pt;
+      line-height: 0.95;
+      font-weight: 800;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      color: #212121;
+      display: inline-block;
+      padding-bottom: 1.2mm;
+      border-bottom: 3mm solid #d0011b;
+      position: relative;
+      z-index: 1;
+    }
+    .role {
+      display: inline-block;
+      margin-top: 3mm;
+      padding: 1.4mm 3.4mm;
+      background: #000;
+      color: #ffcf00;
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      position: relative;
+      z-index: 1;
+    }
+    .contact {
+      margin-top: 4mm;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6mm 4mm;
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 7.6pt;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+    .contact a { color: #000; text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.45); }
+    .contact span::before { content: "■ "; color: #d0011b; font-size: 6pt; }
+
+    /* ---- Body ---- */
+    .main {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 9mm;
+      padding: 8mm 15mm 20mm;
+    }
+    h2 {
+      display: inline-block;
+      margin: 0 0 3mm;
+      padding: 1.2mm 3mm;
+      background: #0055ad;
+      color: #fff;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 8.4pt;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      transform: rotate(-0.7deg);
+    }
+    .profile p {
+      margin: 0 0 6mm;
+      font-size: 8.8pt;
+      line-height: 1.5;
+      color: #262626;
+    }
+    .profile strong { color: #000; }
+
+    .project { margin-bottom: 4mm; break-inside: avoid; }
+    .project:last-child { margin-bottom: 0; }
+    .project h3 {
+      margin: 0;
+      font-size: 10pt;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      line-height: 1.15;
+    }
+    .project .stack {
+      display: block;
+      margin-top: 0.5mm;
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 6.9pt;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: #d0011b;
+      text-transform: uppercase;
+    }
+    .project p {
+      margin: 1.1mm 0 0;
+      font-size: 8pt;
+      line-height: 1.42;
+      color: #333;
+    }
+
+    .side-section { margin-bottom: 6mm; }
+    .side-section:last-child { margin-bottom: 0; }
+    .skill-group { margin-bottom: 3.2mm; }
+    .skill-group:last-child { margin-bottom: 0; }
+    .skill-label {
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 6.9pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #0055ad;
+      text-transform: uppercase;
+      margin-bottom: 1.2mm;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 1.2mm; }
+    .chip {
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 6.8pt;
+      font-weight: 700;
+      background: #f3f3f3;
+      border: 1.5px solid #000;
+      box-shadow: 1.5px 1.5px 0 #000;
+      padding: 0.7mm 1.7mm;
+      white-space: nowrap;
+    }
+    .open-list { margin: 0; padding: 0; list-style: none; }
+    .open-list li {
+      position: relative;
+      padding-left: 4mm;
+      margin-bottom: 1.6mm;
+      font-size: 8pt;
+      line-height: 1.35;
+    }
+    .open-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.1mm;
+      width: 2mm;
+      height: 2mm;
+      background: #ffcf00;
+      border: 1px solid #000;
+      box-shadow: 0.6mm 0.6mm 0 #000;
+    }
+
+    /* ---- Footer ---- */
+    .callout {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 5mm;
+      margin-top: 3mm;
+      padding: 3.6mm 4.5mm;
+      background: #fff7cc;
+      border: 2px solid #000;
+      box-shadow: 3px 3px 0 #000;
+    }
+    .callout-label {
+      flex: 0 0 auto;
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: #fff;
+      background: #d0011b;
+      border: 1.5px solid #000;
+      padding: 1mm 2mm;
+      box-shadow: 1.5px 1.5px 0 #000;
+    }
+    .callout p {
+      margin: 0;
+      font-size: 8.2pt;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    /* ---- Footer ---- */
+    .footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5mm;
+      padding: 3.5mm 15mm;
+      background: #212121;
+      border-top: 4px solid #d0011b;
+      color: #fff;
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 7pt;
+    }
+    .footer .brick {
+      display: inline-block;
+      width: 3mm;
+      height: 3mm;
+      margin-right: 2mm;
+      background: #ffcf00;
+      border: 1px solid #000;
+      box-shadow: 0.7mm 0.7mm 0 #d0011b;
+    }
+    .footer a { color: #ffcf00; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <h1 class="name">Phyothant</h1>
+      <div class="role">MOBILE DEVELOPER</div>
+      <div class="contact">
+        <span>Myanmar</span>
+        <a href="tel:+959258292174">+95 9 258 292 174</a>
+        <a href="mailto:phyothant.dev@gmail.com">phyothant.dev@gmail.com</a>
+        <a href="https://github.com/phyothant-dev">github.com/phyothant-dev</a>
+      </div>
+    </header>
+
+    <main class="main">
+      <div>
+        <section class="profile">
+          <h2>Profile</h2>
+          <p>
+            Mobile developer focused on building clean, reliable cross-platform apps with
+            <strong>React Native</strong> and <strong>Expo</strong>, plus hands-on experience with
+            <strong>Flutter</strong>. I enjoy taking complex problems apart and fitting the pieces
+            together into thoughtful, user-friendly products — the LEGO approach to software.
+          </p>
+        </section>
+
+        <section>
+          <h2>Selected Projects</h2>
+
+          <article class="project">
+            <h3>LocJobs — Local Job Marketplace</h3>
+            <span class="stack">React Native · Expo · Supabase · Google Maps</span>
+            <p>
+              Dual-role job marketplace with real-time chat and read receipts, Google OAuth,
+              location-aware listings, reviews and ratings, and full English/Burmese localization.
+            </p>
+          </article>
+
+          <article class="project">
+            <h3>Ziwa Dana — Mobile ERP Portal</h3>
+            <span class="stack">React Native · Frappe · Camera · Localization</span>
+            <p>
+              ERP companion app for managing suppliers and purchase receipts, with theming,
+              localization, camera capture, and a settings workflow backed by Frappe APIs.
+            </p>
+          </article>
+
+          <article class="project">
+            <h3>JoinUs — Campus Social App</h3>
+            <span class="stack">React Native · Real-time events</span>
+            <p>
+              Social community app that connects students through live event tracking and
+              discussion forums, designed around quick discovery and low-friction participation.
+            </p>
+          </article>
+
+          <article class="project">
+            <h3>LearnDSAlgos — Algorithm Visualizer</h3>
+            <span class="stack">Interactive learning · Data structures</span>
+            <p>
+              Educational tool that turns data structures and algorithms into interactive
+              animations, making abstract concepts easier to see, step through, and remember.
+            </p>
+          </article>
+        </section>
+      </div>
+
+      <aside>
+        <section class="side-section">
+          <h2>Core Skills</h2>
+          <div class="skill-group">
+            <div class="skill-label">Mobile</div>
+            <div class="chips">
+              <span class="chip">React Native</span>
+              <span class="chip">Expo</span>
+              <span class="chip">Flutter</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-label">Languages</div>
+            <div class="chips">
+              <span class="chip">TypeScript</span>
+              <span class="chip">JavaScript</span>
+              <span class="chip">Dart</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-label">Backend &amp; Cloud</div>
+            <div class="chips">
+              <span class="chip">Firebase</span>
+              <span class="chip">Supabase</span>
+              <span class="chip">REST APIs</span>
+              <span class="chip">Frappe</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-label">Tools</div>
+            <div class="chips">
+              <span class="chip">Git / GitHub</span>
+              <span class="chip">Figma</span>
+              <span class="chip">Google Maps</span>
+              <span class="chip">OAuth</span>
+              <span class="chip">i18n</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="side-section">
+          <h2>What I Do</h2>
+          <ul class="open-list">
+            <li>Cross-platform mobile apps with clean, maintainable architecture.</li>
+            <li>API and backend integrations with real-time features.</li>
+            <li>UI systems, theming, and bilingual product experiences.</li>
+            <li>Prototyping ideas quickly and polishing them into shippable builds.</li>
+          </ul>
+        </section>
+
+        <section class="side-section">
+          <h2>Open To</h2>
+          <ul class="open-list">
+            <li>Mobile developer roles</li>
+            <li>Freelance and contract work</li>
+            <li>Open-source collaboration</li>
+          </ul>
+        </section>
+
+        <section class="side-section">
+          <h2>Links</h2>
+          <div class="chips">
+            <span class="chip">github.com/phyothant-dev</span>
+          </div>
+        </section>
+      </aside>
+
+      <section class="callout">
+        <span class="callout-label">THE LEGO APPROACH</span>
+        <p>Break the problem into small pieces, build each one well, then snap them together into something that feels simple.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span><span class="brick"></span>BUILT BRICK BY BRICK</span>
+      <span>PORTFOLIO · <a href="https://github.com/phyothant-dev">github.com/phyothant-dev</a></span>
+    </footer>
+  </div>
+</body>
+</html>

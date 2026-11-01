@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phyothant | Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='20' width='56' height='34' rx='5' fill='%23d0011b' stroke='%23000' stroke-width='4'/%3E%3Crect x='12' y='7' width='15' height='15' rx='3' fill='%23d0011b' stroke='%23000' stroke-width='3'/%3E%3Crect x='37' y='7' width='15' height='15' rx='3' fill='%23d0011b' stroke='%23000' stroke-width='3'/%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Ubuntu+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@v10/font/simple-icons.min.css">
   <style>
@@ -70,12 +71,17 @@
       border-bottom: 2px solid #000;
     }
 
-    /* Theme Toggle Button - Floating Top Right */
-    #theme-toggle {
+    /* Floating top-right controls: CV + theme */
+    .header-controls {
       position: absolute;
       top: 25px;
       right: 25px;
       z-index: 1001;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    #theme-toggle {
       background: var(--nav-bg);
       color: white;
       padding: 12px 20px;
@@ -91,6 +97,19 @@
     }
     #theme-toggle:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px #000; }
     #theme-toggle:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
+
+    .brick-cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 20px; background: var(--lego-red); color: #fff;
+      border: 4px solid #000; box-shadow: 5px 5px 0 #000;
+      font-family: 'Ubuntu Mono', monospace; font-weight: bold; font-size: 0.9rem;
+      text-transform: uppercase; text-decoration: none; letter-spacing: 0.5px;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .brick-cta:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 #000; background: var(--lego-green); color: #fff; }
+    .brick-cta:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+    .brick-cta.small { padding: 9px 16px; font-size: 0.8rem; box-shadow: 4px 4px 0 #000; }
+    .header-controls .brick-cta { padding: 12px 18px; font-size: 0.8rem; box-shadow: 6px 6px 0px #000; }
 
     .studs { position: relative; }
     .studs::before {
@@ -179,24 +198,36 @@
       border-bottom: 4px solid #000;
     }
     #rps-battle {
-      display: flex; align-items: center; justify-content: center; gap: 30px;
-      padding: 30px 20px; width: 100%; background: var(--sky-blue);
+      position: relative; width: 100%; height: clamp(270px, 34vw, 380px);
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255,255,255,0.35), transparent 55%),
+        radial-gradient(circle at 50% 38%, #7fb6ff 0%, var(--sky-blue) 48%, #3f78d6 100%);
+      overflow: hidden;
     }
-    .rps-player { text-align: center; }
-    .rps-label {
-      font-family: 'Ubuntu Mono'; font-weight: bold; color: #fff; margin-bottom: 10px;
-      text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    #rps-canvas {
+      display: block; width: 100%; height: 100%; max-width: none;
+      background: transparent; image-rendering: auto; touch-action: pan-y;
     }
-    .rps-choice {
-      width: 100px; height: 100px; background: white; border: 4px solid #000;
+    #rps-battle.rps-error::after {
+      content: "3D ENGINE COULD NOT LOAD"; position: absolute; inset: 0; z-index: 3;
       display: flex; align-items: center; justify-content: center;
-      font-size: 3rem; box-shadow: 5px 5px 0px #000; transition: transform 0.2s;
+      background: rgba(0,0,0,0.55); color: #fff; font-family: 'Ubuntu Mono';
+      font-weight: bold; font-size: 0.9rem; letter-spacing: 1px;
     }
-    .rps-choice.animate { animation: brickSnap 0.3s ease-out; }
-    .rps-choice svg { width: 70%; height: 70%; }
+    .rps-tag {
+      position: absolute; bottom: 14px; z-index: 2; pointer-events: none;
+      font-family: 'Ubuntu Mono'; font-weight: bold; font-size: 0.78rem;
+      letter-spacing: 1px; padding: 4px 12px; border: 3px solid #000;
+      box-shadow: 3px 3px 0 #000; color: #fff;
+    }
+    .rps-tag.player { left: 16%; background: var(--lego-red); }
+    .rps-tag.cpu { right: 16%; background: var(--lego-blue); }
     .rps-vs {
-      font-family: 'Poppins'; font-size: 1.5rem; font-weight: 800; color: var(--lego-yellow);
-      text-shadow: 2px 2px 0px #000;
+      position: absolute; left: 50%; top: 12px; transform: translateX(-50%) rotate(-2deg);
+      z-index: 2; pointer-events: none; font-family: 'Poppins';
+      font-size: 1.35rem; font-weight: 800; color: var(--lego-yellow);
+      -webkit-text-stroke: 3px #000; paint-order: stroke fill;
+      text-shadow: 3px 3px 0 rgba(0,0,0,0.35);
     }
     #rps-result {
       width: 100%; text-align: center; padding: 10px; font-family: 'Ubuntu Mono';
@@ -205,7 +236,7 @@
       min-height: 44px;
     }
     #rps-buttons {
-      display: flex; justify-content: center; gap: 15px; padding: 20px;
+      display: flex; justify-content: center; gap: 15px; padding: 14px 20px;
       background: var(--lego-black); width: 100%; flex-wrap: wrap;
     }
     .rps-btn {
@@ -219,7 +250,9 @@
     .rps-btn:nth-child(2) { background: var(--lego-blue); color: white; }
     .rps-btn:nth-child(3) { background: var(--lego-red); color: white; }
     @media (max-width: 500px) {
-      .rps-choice { width: 70px; height: 70px; font-size: 2rem; }
+      #rps-battle { height: 260px; }
+      .rps-tag { font-size: 0.68rem; padding: 3px 9px; bottom: 10px; }
+      .rps-vs { font-size: 1.1rem; }
       .rps-btn { padding: 10px 16px; font-size: 0.85rem; }
     }
 
@@ -244,13 +277,14 @@
     .tech-brick.green { border-top: 10px solid var(--lego-green); }
     .tech-brick.red { border-top: 10px solid var(--lego-red); }
 
-    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 40px; }
     .project {
       background: var(--section-bg); border: 4px solid #000;
       box-shadow: 8px 8px 0px var(--lego-blue); cursor: pointer; transition: 0.3s;
       opacity: 0; transform: translateY(40px);
     }
     .project.active { animation: brickSnap 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .project.shown { opacity: 1; transform: translateY(0); }
     .project:nth-child(2).active { animation-delay: 0.1s; }
     .project:nth-child(3).active { animation-delay: 0.2s; }
     .project:nth-child(4).active { animation-delay: 0.3s; }
@@ -306,7 +340,9 @@
 
     /* Mobile specific adjustment for the fixed button */
     @media (max-width: 600px) {
-      #theme-toggle { top: 10px; right: 10px; padding: 8px 12px; font-size: 0.7rem; }
+      .header-controls { top: 10px; right: 10px; gap: 8px; }
+      #theme-toggle { padding: 8px 12px; font-size: 0.7rem; box-shadow: 4px 4px 0 #000; }
+      .header-controls .brick-cta { padding: 8px 12px; font-size: 0.68rem; box-shadow: 4px 4px 0 #000; }
       header h1 { font-size: 2.2rem; }
     }
   </style>
@@ -316,12 +352,15 @@
 <div id="scrollProgress"></div>
 
 <header>
-  <button id="theme-toggle">🌙 MODE</button>
-  
+  <div class="header-controls">
+    <a class="brick-cta" href="Phyothant-CV.pdf" download="Phyothant-CV.pdf">DOWNLOAD CV</a>
+    <button id="theme-toggle">🌙 MODE</button>
+  </div>
+
   <img src="profile.jpg" alt="Phyothant">
   <h1>Phyothant</h1>
   <p style="font-family: 'Ubuntu Mono'; background: #000; color: var(--lego-yellow); padding: 5px 15px; display: inline-block; margin-top: 10px;">> MOBILE DEVELOPER</p>
-  
+
   <nav>
     <a href="#about">About</a>
     <a href="#master-builder">Play Game</a>
@@ -365,17 +404,12 @@
       <span>STREAK: <span id="rps-streak-val">0</span></span>
     </div>
     <div id="rps-battle">
-      <div class="rps-player">
-        <div class="rps-label">YOU</div>
-        <div class="rps-choice" id="rps-player-choice">?</div>
-      </div>
-      <div class="rps-vs">VS</div>
-      <div class="rps-player">
-        <div class="rps-label">PHYOTHANT</div>
-        <div class="rps-choice" id="rps-cpu-choice">?</div>
-      </div>
+      <canvas id="rps-canvas" aria-label="3D LEGO rock paper scissors arena"></canvas>
+      <span class="rps-tag player">YOU</span>
+      <span class="rps-tag cpu">PHYOTHANT</span>
+      <span class="rps-vs">VS</span>
     </div>
-    <div id="rps-result"></div>
+    <div id="rps-result">PICK YOUR MOVE!</div>
     <div id="rps-buttons">
       <button class="rps-btn" onclick="playRPS('rock')">ROCK</button>
       <button class="rps-btn" onclick="playRPS('paper')">PAPER</button>
@@ -428,6 +462,7 @@
     <p><strong>Phone:</strong> <a href="tel:+959258292174" style="color:var(--lego-blue)">+95 9 258 292 174</a></p>
     <p><strong>Email:</strong> <a href="mailto:phyothant.dev@gmail.com" style="color:var(--lego-blue)">phyothant.dev@gmail.com</a></p>
     <p><strong>GitHub:</strong> <a href="https://github.com/phyothant-dev" style="color:var(--lego-blue)">github.com/phyothant-dev</a></p>
+    <a class="brick-cta" href="Phyothant-CV.pdf" download="Phyothant-CV.pdf" style="margin-top: 10px;">DOWNLOAD MY CV</a>
   </div>
 </section>
 
@@ -449,6 +484,7 @@
       <a href="https://github.com/phyothant-dev">GitHub</a>
       <a href="https://www.facebook.com/phyothant.phyothant.9659/" target="_blank">Facebook</a>
       <a href="tel:+959258292174">Call Me</a> <a href="mailto:phyothant.dev@gmail.com">Email Me</a>
+      <a href="Phyothant-CV.pdf" download="Phyothant-CV.pdf">Download CV</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -480,6 +516,7 @@
   <svg viewBox="0 0 24 24" width="30" stroke="#000" stroke-width="4" fill="none"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
 <script>
   // --- THEME & SCROLL (KEEPING YOUR ORIGINAL CODE) ---
   const themeToggle = document.getElementById('theme-toggle');
@@ -501,27 +538,101 @@
     document.getElementById("backToTop").style.display = (winScroll > 300) ? "flex" : "none";
   };
 
+  // --- ANIME.JS ENTRANCES & MICRO-INTERACTIONS ---
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canAnimate = typeof window.anime === 'function' && !reduceMotion;
+
+  function playHeaderIntro() {
+    if (!canAnimate) return;
+    const intro = anime.timeline({ easing: 'easeOutCubic' });
+    intro
+      .add({ targets: 'header img', opacity: [0, 1], scale: [0.6, 1], rotate: [-8, 0], duration: 700, easing: 'easeOutBack' })
+      .add({ targets: 'header h1', opacity: [0, 1], translateY: [28, 0], scale: [0.92, 1], duration: 650 }, '-=430')
+      .add({ targets: 'header p', opacity: [0, 1], translateY: [14, 0], duration: 420 }, '-=380')
+      .add({ targets: '.header-controls > *', opacity: [0, 1], translateY: [18, 0], duration: 500, delay: anime.stagger(90) }, '-=260')
+      .add({ targets: 'nav a', opacity: [0, 1], translateY: [16, 0], scale: [0.9, 1], duration: 420, delay: anime.stagger(60) }, '-=300');
+
+    intro.finished.then(() => {
+      document.querySelectorAll('header img, header h1, header p, .header-controls > *, nav a')
+        .forEach(el => { el.style.opacity = ''; el.style.transform = ''; });
+    });
+  }
+  playHeaderIntro();
+
+  function animateTechStack() {
+    const bricks = document.querySelectorAll('.tech-brick');
+    if (!canAnimate) {
+      bricks.forEach((brick, i) => {
+        setTimeout(() => {
+          brick.style.animation = 'brickSnap 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+        }, i * 100);
+      });
+      return;
+    }
+    anime({
+      targets: bricks,
+      opacity: [0, 1],
+      translateY: [28, 0],
+      scale: [0.86, 1],
+      delay: anime.stagger(80),
+      duration: 480,
+      easing: 'easeOutBack',
+      complete: () => bricks.forEach(brick => {
+        brick.style.opacity = '1';
+        brick.style.transform = '';
+      })
+    });
+  }
+
+  function animateProjects() {
+    const cards = document.querySelectorAll('.project');
+    if (!canAnimate) {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('active'), i * 120);
+      });
+      return;
+    }
+    anime({
+      targets: cards,
+      opacity: [0, 1],
+      translateY: [40, 0],
+      delay: anime.stagger(110),
+      duration: 520,
+      easing: 'easeOutCubic',
+      complete: () => cards.forEach(card => {
+        card.classList.add('shown');
+        card.style.opacity = '';
+        card.style.transform = '';
+      })
+    });
+  }
+
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-        if (entry.target.id === 'tech-stack') {
-          const bricks = entry.target.querySelectorAll('.tech-brick');
-          bricks.forEach((brick, i) => {
-            setTimeout(() => {
-              brick.style.animation = 'brickSnap 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
-            }, i * 100);
-          });
-        }
-        if (entry.target.id === 'projects') {
-          const cards = entry.target.querySelectorAll('.project');
-          cards.forEach((card, i) => {
-            setTimeout(() => {
-              card.classList.add('active');
-            }, i * 120);
-          });
-        }
+      if (!entry.isIntersecting) return;
+      const target = entry.target;
+      if (target.dataset.revealed === '1') return;
+      target.dataset.revealed = '1';
+      target.classList.add('active');
+
+      if (canAnimate) {
+        target.style.transition = 'none';
+        anime({
+          targets: target,
+          opacity: [0, 1],
+          translateY: [30, 0],
+          duration: 720,
+          easing: 'easeOutCubic',
+          complete: () => {
+            target.style.opacity = '';
+            target.style.transform = '';
+            target.style.transition = '';
+          }
+        });
       }
+
+      if (target.id === 'tech-stack') animateTechStack();
+      if (target.id === 'projects') animateProjects();
     });
   }, { threshold: 0.15 });
 
@@ -547,13 +658,42 @@
     } else {
       ghLink.style.display = 'none';
     }
-    document.getElementById('legoModal').style.display = 'flex';
+    const modal = document.getElementById('legoModal');
+    modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+
+    if (canAnimate) {
+      const box = modal.querySelector('.modal-box');
+      anime.remove(box);
+      anime({
+        targets: box,
+        opacity: [0, 1],
+        scale: [0.86, 1],
+        translateY: [24, 0],
+        duration: 430,
+        easing: 'easeOutBack',
+        complete: () => { box.style.opacity = ''; box.style.transform = ''; }
+      });
+    }
   }
 
   function closeModal() {
-    document.getElementById('legoModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
+    const modal = document.getElementById('legoModal');
+    if (modal.style.display !== 'flex') return;
+    const box = modal.querySelector('.modal-box');
+    const finish = () => {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      box.style.opacity = '';
+      box.style.transform = '';
+    };
+
+    if (canAnimate) {
+      anime.remove(box);
+      anime({ targets: box, opacity: 0, scale: 0.92, translateY: 10, duration: 200, easing: 'easeInQuad', complete: finish });
+    } else {
+      finish();
+    }
   }
 
   // --- UPDATED MARIO GAME ENGINE (WITH SCORES & CERTIFICATE) ---
@@ -675,100 +815,845 @@
     }
   });
 
-  // --- ROCK PAPER SCISSORS GAME ---
-  const rpsSVGs = {
-    rock: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#9E9E9E"/><stop offset="100%" style="stop-color:#616161"/>
-      </linearGradient></defs>
-      <path d="M50 10 C25 10 10 30 12 55 C14 75 30 90 50 92 C70 90 86 75 88 55 C90 30 75 10 50 10Z" fill="url(#rg)" stroke="#424242" stroke-width="3"/>
-      <path d="M30 40 C35 35 45 38 42 48" fill="none" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
-      <path d="M55 55 C60 50 68 52 65 60" fill="none" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
-      <path d="M40 65 C43 62 50 63 48 68" fill="none" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
-    </svg>`,
-    paper: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#FFFFFF"/><stop offset="100%" style="stop-color:#E0E0E0"/>
-      </linearGradient></defs>
-      <path d="M15 5 L70 5 L85 20 L85 90 L15 90Z" fill="url(#pg)" stroke="#9E9E9E" stroke-width="2"/>
-      <path d="M70 5 L70 20 L85 20" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2"/>
-      <line x1="28" y1="35" x2="65" y2="35" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
-      <line x1="28" y1="48" x2="60" y2="48" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
-      <line x1="28" y1="61" x2="55" y2="61" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
-      <line x1="28" y1="74" x2="45" y2="74" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round"/>
-    </svg>`,
-    scissors: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#E0E0E0"/><stop offset="100%" style="stop-color:#9E9E9E"/>
-      </linearGradient></defs>
-      <ellipse cx="30" cy="78" rx="14" ry="14" fill="none" stroke="#616161" stroke-width="4"/>
-      <ellipse cx="70" cy="78" rx="14" ry="14" fill="none" stroke="#616161" stroke-width="4"/>
-      <path d="M38 68 L46 35" stroke="url(#sg)" stroke-width="6" stroke-linecap="round"/>
-      <path d="M62 68 L54 35" stroke="url(#sg)" stroke-width="6" stroke-linecap="round"/>
-      <path d="M46 35 L38 12" stroke="url(#sg)" stroke-width="5" stroke-linecap="round"/>
-      <path d="M54 35 L62 12" stroke="url(#sg)" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="50" cy="45" r="4" fill="#757575" stroke="#424242" stroke-width="2"/>
-    </svg>`
-  };
-
+  // --- ROCK PAPER SCISSORS GAME (THREE.JS LEGO ARENA) ---
   let rpsScore = 0;
   let rpsStreak = 0;
+  let rpsLocked = false;
+
+  function rpsPlayerWins(player, cpu) {
+    return (player === 'rock' && cpu === 'scissors') ||
+           (player === 'paper' && cpu === 'rock') ||
+           (player === 'scissors' && cpu === 'paper');
+  }
+
+  function animateRpsResult(outcome) {
+    if (!canAnimate) return;
+    const resultEl = document.getElementById('rps-result');
+    anime.remove(resultEl);
+    if (outcome === 'lose') {
+      anime({ targets: resultEl, translateX: [0, -8, 8, -5, 5, 0], rotate: [0, -1.5, 1.5, 0], duration: 460, easing: 'easeOutQuad' });
+    } else if (outcome === 'win') {
+      anime({ targets: resultEl, scale: [0.82, 1.14, 1], rotate: [-2, 0], duration: 620, easing: 'easeOutBack' });
+      anime({ targets: '#rps-score-val', scale: [1.6, 1], duration: 420, easing: 'easeOutBack' });
+    } else {
+      anime({ targets: resultEl, scale: [0.86, 1], rotate: [1.5, 0], duration: 500, easing: 'easeOutBack' });
+    }
+  }
 
   function playRPS(playerChoice) {
-    const choices = ['rock', 'paper', 'scissors'];
-    const cpuChoice = choices[Math.floor(Math.random() * 3)];
+    if (rpsLocked) return;
+    rpsLocked = true;
 
-    const playerEl = document.getElementById('rps-player-choice');
-    const cpuEl = document.getElementById('rps-cpu-choice');
     const resultEl = document.getElementById('rps-result');
     const btns = document.querySelectorAll('.rps-btn');
-
     btns.forEach(b => b.disabled = true);
-
-    playerEl.innerHTML = '?';
-    playerEl.style.fontSize = '3rem';
-    cpuEl.innerHTML = '?';
-    cpuEl.style.fontSize = '3rem';
-    resultEl.textContent = 'THINKING...';
+    resultEl.textContent = 'BUILDING...';
+    if (window.LegoRPS) window.LegoRPS.thinking();
 
     setTimeout(() => {
-      playerEl.style.fontSize = '';
-      playerEl.innerHTML = rpsSVGs[playerChoice];
-      playerEl.classList.remove('animate');
-      void playerEl.offsetWidth;
-      playerEl.classList.add('animate');
+      const choices = ['rock', 'paper', 'scissors'];
+      const cpuChoice = choices[Math.floor(Math.random() * 3)];
+      let outcome;
 
-      cpuEl.style.fontSize = '';
-      cpuEl.innerHTML = rpsSVGs[cpuChoice];
-      cpuEl.classList.remove('animate');
-      void cpuEl.offsetWidth;
-      cpuEl.classList.add('animate');
-
-      let result = '';
       if (playerChoice === cpuChoice) {
-        result = "IT'S A TIE!";
+        outcome = 'tie';
         rpsStreak = 0;
-      } else if (
-        (playerChoice === 'rock' && cpuChoice === 'scissors') ||
-        (playerChoice === 'paper' && cpuChoice === 'rock') ||
-        (playerChoice === 'scissors' && cpuChoice === 'paper')
-      ) {
+      } else if (rpsPlayerWins(playerChoice, cpuChoice)) {
+        outcome = 'win';
         rpsScore++;
         rpsStreak++;
-        result = rpsStreak >= 3 ? `🔥 ${rpsStreak}x STREAK! YOU WIN!` : 'YOU WIN!';
       } else {
+        outcome = 'lose';
         rpsStreak = 0;
-        result = 'PHYOTHANT WINS!';
       }
 
-      resultEl.textContent = result;
+      if (window.LegoRPS) window.LegoRPS.play(playerChoice, cpuChoice, outcome);
+
+      if (outcome === 'tie') resultEl.textContent = "IT'S A TIE!";
+      else if (outcome === 'win') resultEl.textContent = rpsStreak >= 3 ? `🔥 ${rpsStreak}x STREAK! YOU WIN!` : 'YOU WIN!';
+      else resultEl.textContent = 'PHYOTHANT WINS!';
+      animateRpsResult(outcome);
+
       document.getElementById('rps-score-val').textContent = rpsScore;
       document.getElementById('rps-streak-val').textContent = rpsStreak;
       btns.forEach(b => b.disabled = false);
-    }, 600);
+      rpsLocked = false;
+    }, 700);
   }
 
+  // If the 3D module fails to load, surface a friendly message instead of an empty arena.
+  setTimeout(() => {
+    if (!window.LegoRPS) document.getElementById('rps-battle').classList.add('rps-error');
+  }, 8000);
+
   gameLoop();
+</script>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+  import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+  (function initLegoRPS() {
+    const battle = document.getElementById('rps-battle');
+    const canvas = document.getElementById('rps-canvas');
+    if (!battle || !canvas) return;
+
+    try {
+      /* ------------------------------------------------------------------ */
+      /*  Palette & shared helpers                                          */
+      /* ------------------------------------------------------------------ */
+      const C = {
+        red: 0xd0011b,
+        blue: 0x0055ad,
+        yellow: 0xffcf00,
+        green: 0x237841,
+        white: 0xf7f6ef,
+        steel: 0xc2cbd4,
+        base: 0x17502c,
+        baseTop: 0x237841
+      };
+
+      const HOLDER_Y = 0.42;
+      const MODEL_SCALE = 0.8;
+      const STUD_GEO = new THREE.CylinderGeometry(0.27, 0.27, 0.18, 16);
+      STUD_GEO.translate(0, 0.09, 0);
+
+      const geomCache = new Map();
+      function boxGeo(w, h, d, radius = 0.05) {
+        const key = w + '|' + h + '|' + d + '|' + radius;
+        let geo = geomCache.get(key);
+        if (!geo) {
+          const r = Math.min(radius, Math.min(w, h, d) / 2 - 0.002);
+          geo = new RoundedBoxGeometry(w, h, d, 2, r);
+          geomCache.set(key, geo);
+        }
+        return geo;
+      }
+
+      const matCache = new Map();
+      function plastic(color, opts = {}) {
+        const rough = opts.rough ?? 0.4;
+        const metal = opts.metal ?? 0;
+        const clearcoat = opts.clearcoat ?? 0.55;
+        const env = opts.env ?? 0.55;
+        const key = color + '|' + rough + '|' + metal + '|' + clearcoat + '|' + env;
+        let mat = matCache.get(key);
+        if (!mat) {
+          mat = new THREE.MeshPhysicalMaterial({
+            color,
+            roughness: rough,
+            metalness: metal,
+            clearcoat,
+            clearcoatRoughness: 0.35,
+            envMapIntensity: env
+          });
+          matCache.set(key, mat);
+        }
+        return mat;
+      }
+
+      /* A single LEGO brick: rounded body + studs on top.
+         w/d are measured in studs, h in brick heights (1.2 = one brick). */
+      function brick({ w = 1, d = 1, h = 1.2, color = C.red, studs = true, x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0, mat }) {
+        const group = new THREE.Group();
+        const material = mat || plastic(color);
+        const body = new THREE.Mesh(boxGeo(Math.max(0.24, w - 0.03), h, Math.max(0.24, d - 0.03), 0.05), material);
+        body.position.y = h / 2;
+        body.castShadow = true;
+        body.receiveShadow = true;
+        group.add(body);
+
+        if (studs) {
+          const cols = Math.round(w);
+          const rows = Math.round(d);
+          for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+              const stud = new THREE.Mesh(STUD_GEO, material);
+              stud.position.set(-w / 2 + 0.5 + i, h, -d / 2 + 0.5 + j);
+              group.add(stud);
+            }
+          }
+        }
+
+        group.position.set(x, y, z);
+        group.rotation.set(rx, ry, rz);
+        return group;
+      }
+
+      /* ------------------------------------------------------------------ */
+      /*  Brick-built models                                                */
+      /* ------------------------------------------------------------------ */
+      function buildRock() {
+        const g = new THREE.Group();
+        const tones = [0x6e767c, 0x5c646a, 0x7c848a, 0x50585e];
+        const rockMat = (color) => plastic(color, { rough: 0.62, clearcoat: 0.18, env: 0.3 });
+
+        // chunky 4x4 foot
+        g.add(brick({ w: 4, d: 4, h: 0.4, mat: rockMat(0x474f55) }));
+        // bottom boulder layer
+        g.add(brick({ w: 2, d: 2, mat: rockMat(tones[0]), x: -1, y: 0.4, z: -1 }));
+        g.add(brick({ w: 2, d: 2, mat: rockMat(tones[1]), x: 1, y: 0.4, z: -1 }));
+        g.add(brick({ w: 2, d: 2, mat: rockMat(tones[2]), x: -1, y: 0.4, z: 1 }));
+        g.add(brick({ w: 2, d: 2, mat: rockMat(tones[3]), x: 1, y: 0.4, z: 1 }));
+        // rough middle cluster, slightly rotated for a hand-built feel
+        g.add(brick({ w: 2, d: 2, mat: rockMat(tones[1]), x: -0.35, y: 1.6, z: -0.25, ry: 0.14 }));
+        g.add(brick({ w: 1, d: 2, mat: rockMat(tones[2]), x: 1.18, y: 1.6, z: -0.55, ry: -0.2 }));
+        g.add(brick({ w: 1, d: 1, mat: rockMat(tones[0]), x: -1.5, y: 1.6, z: 1.25, ry: 0.32 }));
+        // cap
+        g.add(brick({ w: 2, d: 2, mat: rockMat(tones[2]), x: 0.12, y: 2.8, z: -0.05, ry: -0.18 }));
+        return g;
+      }
+
+      function buildPaper() {
+        const g = new THREE.Group();
+        g.add(brick({ w: 4, d: 2, h: 0.4, color: 0x37588c }));
+
+        const sheet = new THREE.Group();
+        sheet.position.y = 0.4;
+        sheet.rotation.x = -0.13;
+
+        const paperMat = plastic(C.white, { rough: 0.55, clearcoat: 0.25 });
+        const panel = new THREE.Mesh(boxGeo(3.4, 4.0, 0.26, 0.05), paperMat);
+        panel.position.y = 2.0;
+        panel.castShadow = true;
+        panel.receiveShadow = true;
+        sheet.add(panel);
+
+        // red header bar
+        const header = new THREE.Mesh(boxGeo(1.9, 0.36, 0.08, 0.02), plastic(C.red, { rough: 0.45 }));
+        header.position.set(-0.55, 3.52, 0.17);
+        header.castShadow = true;
+        sheet.add(header);
+
+        // blue text lines
+        for (let i = 0; i < 4; i++) {
+          const line = new THREE.Mesh(
+            boxGeo(i === 3 ? 1.7 : 2.6, 0.12, 0.06, 0.02),
+            plastic(C.blue, { rough: 0.45 })
+          );
+          line.position.set(-0.1, 2.98 - i * 0.48, 0.17);
+          line.castShadow = true;
+          sheet.add(line);
+        }
+
+        // yellow brick "clip" gripping the top edge
+        const clip = brick({ w: 3, d: 1, h: 0.5, color: C.yellow, y: 3.83 });
+        sheet.add(clip);
+
+        g.add(sheet);
+        return g;
+      }
+
+      let bladeGeo = null;
+      let handleGeo = null;
+      let pinGeo = null;
+      let pinStudGeo = null;
+      function getBladeGeo() {
+        if (bladeGeo) return bladeGeo;
+        const shape = new THREE.Shape();
+        shape.moveTo(-0.34, 0);
+        shape.lineTo(0.34, 0);
+        shape.lineTo(0.27, 2.0);
+        shape.lineTo(0.09, 2.65);
+        shape.lineTo(-0.09, 2.65);
+        shape.lineTo(-0.27, 2.0);
+        shape.closePath();
+        bladeGeo = new THREE.ExtrudeGeometry(shape, {
+          depth: 0.24,
+          bevelEnabled: true,
+          bevelSize: 0.035,
+          bevelThickness: 0.035,
+          bevelSegments: 2,
+          steps: 1,
+          curveSegments: 4
+        });
+        bladeGeo.translate(0, 0, -0.12);
+        return bladeGeo;
+      }
+
+      function buildScissors() {
+        const g = new THREE.Group();
+        g.add(brick({ w: 3, d: 3, h: 0.4, color: 0x38414c }));
+
+        if (!handleGeo) {
+          handleGeo = new THREE.TorusGeometry(0.5, 0.19, 12, 28);
+          pinGeo = new THREE.CylinderGeometry(0.34, 0.34, 0.62, 20);
+          pinStudGeo = new THREE.CylinderGeometry(0.19, 0.19, 0.16, 16);
+        }
+
+        const steel = plastic(C.steel, { rough: 0.3, metal: 0.55, clearcoat: 0.4, env: 1.0 });
+
+        function makeHalf(rotZ, z, handleColor) {
+          const half = new THREE.Group();
+
+          const blade = new THREE.Mesh(getBladeGeo(), steel);
+          blade.castShadow = true;
+          half.add(blade);
+
+          const neck = new THREE.Mesh(boxGeo(0.34, 0.85, 0.26, 0.05), steel);
+          neck.position.y = -0.45;
+          neck.castShadow = true;
+          half.add(neck);
+
+          const handle = new THREE.Mesh(handleGeo, plastic(handleColor, { rough: 0.42 }));
+          handle.position.y = -1.12;
+          handle.castShadow = true;
+          half.add(handle);
+
+          half.rotation.z = rotZ;
+          half.position.z = z;
+          return half;
+        }
+
+        const pivot = new THREE.Group();
+        pivot.position.y = 2.22;
+        pivot.add(makeHalf(0.34, 0.14, C.yellow));
+        pivot.add(makeHalf(-0.34, -0.14, C.red));
+
+        const pinMat = plastic(C.yellow, { rough: 0.4 });
+        const pin = new THREE.Mesh(pinGeo, pinMat);
+        pin.rotation.x = Math.PI / 2;
+        pin.castShadow = true;
+        pivot.add(pin);
+
+        const pinStud = new THREE.Mesh(pinStudGeo, pinMat);
+        pinStud.rotation.x = Math.PI / 2;
+        pinStud.position.z = 0.39;
+        pivot.add(pinStud);
+        const pinStudBack = pinStud.clone();
+        pinStudBack.position.z = -0.39;
+        pivot.add(pinStudBack);
+
+        g.add(pivot);
+        return g;
+      }
+
+      const MODEL_BUILDERS = {
+        rock: buildRock,
+        paper: buildPaper,
+        scissors: buildScissors
+      };
+
+      /* ------------------------------------------------------------------ */
+      /*  Renderer / scene / camera                                         */
+      /* ------------------------------------------------------------------ */
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 120);
+      const camTarget = new THREE.Vector3(0, 2.0, 0);
+      let baseCamY = 6.1;
+      let baseCamZ = 11.9;
+
+      // Soft studio reflections to sell the ABS plastic look.
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      const room = new RoomEnvironment(renderer);
+      scene.environment = pmrem.fromScene(room, 0.04).texture;
+      room.dispose();
+      pmrem.dispose();
+
+      /* ------------------------------------------------------------------ */
+      /*  Lights                                                            */
+      /* ------------------------------------------------------------------ */
+      const hemi = new THREE.HemisphereLight(0xffffff, 0x3a5f9e, 0.85);
+      scene.add(hemi);
+
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.3);
+      keyLight.position.set(7, 13, 9);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.set(1024, 1024);
+      keyLight.shadow.camera.left = -9;
+      keyLight.shadow.camera.right = 9;
+      keyLight.shadow.camera.top = 10;
+      keyLight.shadow.camera.bottom = -7;
+      keyLight.shadow.camera.near = 1;
+      keyLight.shadow.camera.far = 35;
+      keyLight.shadow.bias = -0.0006;
+      keyLight.shadow.normalBias = 0.02;
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xbfd8ff, 0.8);
+      fillLight.position.set(-8, 6, -4);
+      scene.add(fillLight);
+
+      const rimLight = new THREE.DirectionalLight(0xffffff, 0.65);
+      rimLight.position.set(0, 5, -10);
+      scene.add(rimLight);
+
+      /* ------------------------------------------------------------------ */
+      /*  Arena                                                             */
+      /* ------------------------------------------------------------------ */
+      const arena = new THREE.Group();
+      scene.add(arena);
+
+      const arenaBase = new THREE.Mesh(
+        new THREE.CylinderGeometry(6.35, 6.45, 0.6, 72),
+        plastic(C.base, { rough: 0.7, clearcoat: 0.05, env: 0.25 })
+      );
+      arenaBase.position.y = -0.25;
+      arenaBase.receiveShadow = true;
+      arenaBase.castShadow = true;
+      arena.add(arenaBase);
+
+      const arenaTop = new THREE.Mesh(
+        new THREE.CylinderGeometry(6.28, 6.28, 0.1, 72),
+        plastic(C.baseTop, { rough: 0.7, clearcoat: 0.05, env: 0.25 })
+      );
+      arenaTop.position.y = 0.05;
+      arenaTop.receiveShadow = true;
+      arena.add(arenaTop);
+
+      const arenaRim = new THREE.Mesh(
+        new THREE.TorusGeometry(6.26, 0.07, 8, 96),
+        plastic(C.yellow, { rough: 0.4 })
+      );
+      arenaRim.rotation.x = Math.PI / 2;
+      arenaRim.position.y = 0.11;
+      arena.add(arenaRim);
+
+      const rimStudMat = plastic(0x1a5f34, { rough: 0.5 });
+      const arenaStuds = new THREE.Group();
+      for (let i = 0; i < 36; i++) {
+        const a = (i / 36) * Math.PI * 2;
+        const stud = new THREE.Mesh(STUD_GEO, rimStudMat);
+        stud.position.set(Math.cos(a) * 5.96, 0.1, Math.sin(a) * 5.96);
+        arenaStuds.add(stud);
+      }
+      arena.add(arenaStuds);
+
+      // full stud grid across the baseplate
+      const gridStudMat = plastic(0x2b8a4b, { rough: 0.55, clearcoat: 0.15, env: 0.25 });
+      const gridPoints = [];
+      for (let ix = -6; ix <= 6; ix++) {
+        for (let iz = -6; iz <= 6; iz++) {
+          if (Math.hypot(ix, iz) <= 5.55) gridPoints.push([ix, iz]);
+        }
+      }
+      const studGrid = new THREE.InstancedMesh(STUD_GEO, gridStudMat, gridPoints.length);
+      const studMatrix = new THREE.Matrix4();
+      gridPoints.forEach(([ix, iz], i) => {
+        studMatrix.makeTranslation(ix, 0.1, iz);
+        studGrid.setMatrixAt(i, studMatrix);
+      });
+      studGrid.receiveShadow = true;
+      arena.add(studGrid);
+
+      // little yellow medallion in the middle
+      const medallion = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.62, 0.62, 0.12, 24),
+        plastic(C.yellow, { rough: 0.4 })
+      );
+      medallion.position.y = 0.16;
+      medallion.castShadow = true;
+      arena.add(medallion);
+      const medallionStud = new THREE.Mesh(STUD_GEO, plastic(C.yellow, { rough: 0.4 }));
+      medallionStud.position.y = 0.22;
+      arena.add(medallionStud);
+
+      /* ------------------------------------------------------------------ */
+      /*  Turntables                                                        */
+      /* ------------------------------------------------------------------ */
+
+      function makeQuestionSprite() {
+        const c = document.createElement('canvas');
+        c.width = c.height = 256;
+        const ctx = c.getContext('2d');
+        ctx.font = '900 210px Poppins, Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = 26;
+        ctx.strokeStyle = 'rgba(20,20,20,0.95)';
+        ctx.strokeText('?', 128, 138);
+        ctx.fillStyle = '#ffcf00';
+        ctx.fillText('?', 128, 138);
+
+        const tex = new THREE.CanvasTexture(c);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = 4;
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: tex,
+          transparent: true,
+          depthWrite: false,
+          toneMapped: false
+        }));
+        sprite.scale.set(1.9, 1.9, 1);
+        return sprite;
+      }
+
+      function createTurntable(x, plateColor, emissiveColor) {
+        const group = new THREE.Group();
+        group.position.set(x, 0.1, 0);
+
+        const plateMat = new THREE.MeshPhysicalMaterial({
+          color: plateColor,
+          roughness: 0.5,
+          metalness: 0,
+          clearcoat: 0.25,
+          clearcoatRoughness: 0.4,
+          envMapIntensity: 0.4,
+          emissive: emissiveColor,
+          emissiveIntensity: 0
+        });
+        const plate = new THREE.Mesh(new THREE.CylinderGeometry(2.25, 2.38, 0.42, 56), plateMat);
+        plate.position.y = 0.21;
+        plate.castShadow = true;
+        plate.receiveShadow = true;
+        group.add(plate);
+
+        const rim = new THREE.Mesh(
+          new THREE.TorusGeometry(2.14, 0.06, 8, 64),
+          plastic(C.yellow, { rough: 0.4 })
+        );
+        rim.rotation.x = Math.PI / 2;
+        rim.position.y = 0.43;
+        group.add(rim);
+
+        const studMat = plastic(
+          new THREE.Color(plateColor).multiplyScalar(0.78).getHex(),
+          { rough: 0.5 }
+        );
+        for (let i = 0; i < 18; i++) {
+          const a = (i / 18) * Math.PI * 2;
+          const stud = new THREE.Mesh(STUD_GEO, studMat);
+          stud.position.set(Math.cos(a) * 2.0, 0.42, Math.sin(a) * 2.0);
+          group.add(stud);
+        }
+
+        const holder = new THREE.Group();
+        holder.position.y = HOLDER_Y;
+        group.add(holder);
+
+        const question = makeQuestionSprite();
+        question.position.y = 2.2;
+        group.add(question);
+
+        group.userData = { plateMat, holder, question };
+        return group;
+      }
+
+      const playerTable = createTurntable(-3.1, C.red, 0xff3b30);
+      const cpuTable = createTurntable(3.1, C.blue, 0x2f7dff);
+      scene.add(playerTable, cpuTable);
+
+      const sides = {
+        player: {
+          table: playerTable,
+          holder: playerTable.userData.holder,
+          question: playerTable.userData.question,
+          model: null,
+          spawnAt: -1,
+          hopAt: -1,
+          mood: '',
+          glow: 0
+        },
+        cpu: {
+          table: cpuTable,
+          holder: cpuTable.userData.holder,
+          question: cpuTable.userData.question,
+          model: null,
+          spawnAt: -1,
+          hopAt: -1,
+          mood: '',
+          glow: 0
+        }
+      };
+
+      /* ------------------------------------------------------------------ */
+      /*  State & effects                                                   */
+      /* ------------------------------------------------------------------ */
+      let time = 0;
+      let visible = true;
+      let spin = 0.35;
+      let targetSpin = 0.35;
+
+      const confetti = [];
+      const confettiGroup = new THREE.Group();
+      scene.add(confettiGroup);
+
+      const pointer = { x: 0, y: 0 };
+      const pointerTarget = { x: 0, y: 0 };
+      const supportsHover = window.matchMedia('(pointer: fine)').matches;
+
+      function easeOutBounce(x) {
+        const n1 = 7.5625;
+        const d1 = 2.75;
+        if (x < 1 / d1) return n1 * x * x;
+        if (x < 2 / d1) {
+          x -= 1.5 / d1;
+          return n1 * x * x + 0.75;
+        }
+        if (x < 2.5 / d1) {
+          x -= 2.25 / d1;
+          return n1 * x * x + 0.9375;
+        }
+        x -= 2.625 / d1;
+        return n1 * x * x + 0.984375;
+      }
+
+      function clearModel(side) {
+        side.holder.children.slice().forEach(child => side.holder.remove(child));
+        side.model = null;
+        side.spawnAt = -1;
+        side.holder.scale.setScalar(1);
+        side.holder.position.y = HOLDER_Y;
+        side.question.visible = true;
+      }
+
+      function showModel(side, choice) {
+        side.holder.children.slice().forEach(child => side.holder.remove(child));
+
+        const builder = MODEL_BUILDERS[choice] || MODEL_BUILDERS.rock;
+        const wrap = new THREE.Group();
+        wrap.scale.setScalar(MODEL_SCALE);
+        wrap.add(builder());
+        side.holder.add(wrap);
+
+        side.holder.scale.setScalar(0.4);
+        side.holder.position.y = HOLDER_Y + 3.0;
+        side.holder.rotation.z = 0;
+        side.model = wrap;
+        side.spawnAt = time;
+        side.question.visible = false;
+      }
+
+      function spawnConfetti(x, palette) {
+        for (let i = 0; i < 26; i++) {
+          const s = 0.16 + Math.random() * 0.14;
+          const mesh = new THREE.Mesh(
+            boxGeo(s * 1.8, s, s * 1.8, 0.02),
+            plastic(palette[i % palette.length], { rough: 0.45 })
+          );
+          mesh.castShadow = true;
+          mesh.position.set(
+            x + (Math.random() - 0.5) * 3.0,
+            5.6 + Math.random() * 2.4,
+            (Math.random() - 0.5) * 2.4
+          );
+          mesh.rotation.set(Math.random() * 6, Math.random() * 6, Math.random() * 6);
+          confettiGroup.add(mesh);
+          confetti.push({
+            mesh,
+            vx: (Math.random() - 0.5) * 2.6,
+            vy: 1.2 + Math.random() * 2.2,
+            vz: (Math.random() - 0.5) * 1.8,
+            rx: (Math.random() - 0.5) * 10,
+            ry: (Math.random() - 0.5) * 10,
+            rz: (Math.random() - 0.5) * 10,
+            life: 3.4
+          });
+        }
+      }
+
+      function updateConfetti(dt) {
+        for (let i = confetti.length - 1; i >= 0; i--) {
+          const p = confetti[i];
+          p.vy -= 11 * dt;
+          p.mesh.position.x += p.vx * dt;
+          p.mesh.position.y += p.vy * dt;
+          p.mesh.position.z += p.vz * dt;
+          p.mesh.rotation.x += p.rx * dt;
+          p.mesh.rotation.y += p.ry * dt;
+          p.mesh.rotation.z += p.rz * dt;
+          p.life -= dt;
+          if (p.life <= 0 || p.mesh.position.y < -1.2) {
+            confettiGroup.remove(p.mesh);
+            confetti.splice(i, 1);
+          }
+        }
+      }
+
+      /* ------------------------------------------------------------------ */
+      /*  Public presentation API (called by the page's game logic)         */
+      /* ------------------------------------------------------------------ */
+      function thinking() {
+        targetSpin = 10;
+        for (let i = confetti.length - 1; i >= 0; i--) {
+          confettiGroup.remove(confetti[i].mesh);
+        }
+        confetti.length = 0;
+
+        for (const key of ['player', 'cpu']) {
+          const s = sides[key];
+          clearModel(s);
+          s.mood = '';
+          s.hopAt = -1;
+          s.glow = 0;
+          s.question.visible = true;
+        }
+      }
+
+      function play(playerChoice, cpuChoice, outcome) {
+        targetSpin = 0.35;
+
+        showModel(sides.player, playerChoice);
+        showModel(sides.cpu, cpuChoice);
+
+        sides.player.mood = outcome === 'win' ? 'win' : outcome === 'lose' ? 'lose' : 'tie';
+        sides.cpu.mood = outcome === 'lose' ? 'win' : outcome === 'win' ? 'lose' : 'tie';
+
+        if (outcome === 'tie') {
+          sides.player.hopAt = time;
+          sides.cpu.hopAt = time;
+          sides.player.glow = 1.0;
+          sides.cpu.glow = 1.0;
+        } else if (outcome === 'win') {
+          sides.player.glow = 1.6;
+          sides.cpu.glow = 0;
+          spawnConfetti(-3.1, [C.red, C.yellow, C.white, C.green]);
+        } else {
+          sides.cpu.glow = 1.6;
+          sides.player.glow = 0;
+          spawnConfetti(3.1, [C.blue, C.yellow, C.white, C.red]);
+        }
+      }
+
+      window.LegoRPS = { thinking, play };
+      battle.classList.remove('rps-error');
+
+      /* ------------------------------------------------------------------ */
+      /*  Sizing, pointer parallax & visibility                             */
+      /* ------------------------------------------------------------------ */
+      function resize() {
+        const w = Math.max(1, battle.clientWidth);
+        const h = Math.max(1, battle.clientHeight);
+        const aspect = w / h;
+        renderer.setSize(w, h, false);
+        camera.aspect = aspect;
+
+        // Pull the camera back on narrow screens so both turntables stay visible.
+        const dist = Math.max(13.4, 6.1 / (Math.tan(THREE.MathUtils.degToRad(camera.fov * 0.5)) * aspect));
+        baseCamY = 0.455 * dist;
+        baseCamZ = 0.89 * dist;
+        camera.position.set(0, baseCamY, baseCamZ);
+        camera.lookAt(camTarget);
+        camera.updateProjectionMatrix();
+      }
+
+      if (supportsHover) {
+        battle.addEventListener('pointermove', (e) => {
+          const rect = battle.getBoundingClientRect();
+          pointerTarget.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+          pointerTarget.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        });
+        battle.addEventListener('pointerleave', () => {
+          pointerTarget.x = 0;
+          pointerTarget.y = 0;
+        });
+      }
+
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(resize).observe(battle);
+      } else {
+        window.addEventListener('resize', resize);
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entries) => {
+          visible = entries[0].isIntersecting;
+        }, { threshold: 0.02 }).observe(battle);
+      }
+
+      resize();
+
+      /* ------------------------------------------------------------------ */
+      /*  Animation loop                                                    */
+      /* ------------------------------------------------------------------ */
+      let last = performance.now();
+
+      function tick(now) {
+        requestAnimationFrame(tick);
+
+        const rawDt = (now - last) / 1000;
+        last = now;
+        if (!visible) return;
+
+        const dt = Math.min(rawDt, 0.05);
+        time += dt;
+
+        pointer.x += (pointerTarget.x - pointer.x) * Math.min(1, dt * 3.5);
+        pointer.y += (pointerTarget.y - pointer.y) * Math.min(1, dt * 3.5);
+
+        spin += (targetSpin - spin) * Math.min(1, dt * 3.2);
+        playerTable.rotation.y += spin * dt;
+        cpuTable.rotation.y -= spin * dt;
+
+        for (const key of ['player', 'cpu']) {
+          const s = sides[key];
+
+          if (s.spawnAt >= 0) {
+            const t = (time - s.spawnAt) / 0.62;
+            if (t >= 1) {
+              s.spawnAt = -1;
+              s.holder.scale.setScalar(1);
+              s.holder.position.y = HOLDER_Y;
+            } else {
+              const e = easeOutBounce(t);
+              s.holder.scale.setScalar(0.4 + 0.6 * e);
+              s.holder.position.y = HOLDER_Y + (1 - e) * 3.0;
+            }
+          }
+
+          if (s.model) {
+            let bob = Math.sin(time * 2 + (key === 'player' ? 0 : 1.7)) * 0.045;
+            if (s.hopAt >= 0) {
+              const ht = time - s.hopAt;
+              if (ht > 0.75) {
+                s.hopAt = -1;
+              } else {
+                bob += Math.sin((ht / 0.75) * Math.PI) * 0.35;
+              }
+            }
+            const lift = s.mood === 'win' ? 0.1 : s.mood === 'lose' ? -0.05 : 0;
+            if (s.spawnAt < 0) s.holder.position.y = HOLDER_Y + lift + bob;
+          }
+
+          const tilt = s.mood === 'lose' ? 0.1 : 0;
+          s.holder.rotation.z += (tilt - s.holder.rotation.z) * Math.min(1, dt * 4);
+
+          s.question.position.y = 2.2 + Math.sin(time * 2.2 + (key === 'player' ? 0 : 1.5)) * 0.13;
+
+          s.glow = Math.max(0, s.glow - dt * 1.1);
+          s.table.userData.plateMat.emissiveIntensity = s.glow * 0.9;
+        }
+
+        updateConfetti(dt);
+
+        camera.position.x = pointer.x * 0.9;
+        camera.position.y = baseCamY - pointer.y * 0.5;
+        camera.position.z = baseCamZ;
+        camera.lookAt(camTarget);
+
+        renderer.render(scene, camera);
+      }
+
+      requestAnimationFrame(tick);
+    } catch (err) {
+      console.error('LEGO RPS failed to start:', err);
+      battle.classList.add('rps-error');
+    }
+  })();
 </script>
 
 </body>
